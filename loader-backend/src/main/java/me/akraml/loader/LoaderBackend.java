@@ -1,7 +1,9 @@
 package me.akraml.loader;
 
 import lombok.Getter;
+import me.akraml.loader.server.LoaderServer;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -14,7 +16,7 @@ public class LoaderBackend {
     @Getter
     private static final Logger logger = Logger.getLogger("main");
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tT] [%4$-3s] %5$s%n");
         final Map<String, String> argsMap = new HashMap<>();
         for (final String arg : args) {
@@ -35,7 +37,8 @@ public class LoaderBackend {
             return;
         }
         final int port = Integer.parseInt(serverPortValue);
-
+        final LoaderServer loaderServer = new LoaderServer(port);
+        Runtime.getRuntime().addShutdownHook(new Thread(loaderServer::shutdownServer));
     }
 
     private static boolean isInt(final String string) {
@@ -48,7 +51,7 @@ public class LoaderBackend {
     }
 
     private static void printUsage() {
-        logger.info("Usage: java -jar loader-backend.jar --port=<port>");
+        logger.info("Usage: java -jar loader-backend.jar --port=<port> --file=<jar file>");
     }
 
 }
