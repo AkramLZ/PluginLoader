@@ -12,7 +12,7 @@ This project requires at least spigot (or any related fork) 1.8+ and Java versio
 - - **file**: The path to the jar to inject in target servers.`Example: --file=injected-plugin.jar`
 - - **main-class**: The path to the main class of the injected jar. `Example: --main-class=me.akraml.loader.plugin.ExampleInjectedPlugin`
 ### Loader plugin
-- Build the plugin using shadowJar. `gradlew :loader-plugi:shadowJar`
+- Build the plugin using shadowJar. `gradlew :loader-plugin:shadowJar`
 - Drop it in your server plugins folder.
 - Configure it to match the loader backend server.
 - Start the server.
