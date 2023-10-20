@@ -3,7 +3,6 @@ package me.akraml.loader.server;
 import me.akraml.loader.LoaderBackend;
 import me.akraml.loader.utility.FileUtils;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +40,6 @@ public final class LoaderServer {
                         + hostname);
 
                 // Declare input & output stream variables.
-                final DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                 final DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
                 // Declare file to be sent, convert it into bytes then send it.
