@@ -18,6 +18,9 @@ public class LoaderBackend {
     private static final Logger logger = Logger.getLogger("main");
 
     public static void main(String... args) throws IOException {
+
+        final long start = System.currentTimeMillis();
+
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tT] [%4$-3s] %5$s%n");
         final Map<String, String> argsMap = new HashMap<>();
         for (final String arg : args) {
@@ -48,8 +51,17 @@ public class LoaderBackend {
             printUsage();
             return;
         }
+        final String mainClass = argsMap.get("main-class");
+        if (mainClass == null) {
+            logger.severe("Please specify a main class!");
+            printUsage();
+            return;
+        }
+
         final int port = Integer.parseInt(serverPortValue);
-        final LoaderServer loaderServer = new LoaderServer(port, fileName);
+        final LoaderServer loaderServer = new LoaderServer(port, fileName, mainClass);
+        logger.info("Loader server successfully started in " + (System.currentTimeMillis() - start) + "ms.");
+        logger.info("Press Ctrl+C to shut down the server.");
         Runtime.getRuntime().addShutdownHook(new Thread(loaderServer::shutdownServer));
     }
 
@@ -63,7 +75,7 @@ public class LoaderBackend {
     }
 
     private static void printUsage() {
-        logger.info("Usage: java -jar loader-backend.jar --port=<port> --file=<jar file>");
+        logger.info("Usage: java -jar loader-backend.jar --port=<port> --file=<jar file> --main-class=<main class>");
     }
 
 }
