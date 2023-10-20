@@ -1,0 +1,4 @@
+name: PluginLoader
+description: A plugin that injects an external plugin into the server without saving it into the disk.
+version: 1.0-BETA
+main: me.akraml.loader.plugin.LoaderPlugin
