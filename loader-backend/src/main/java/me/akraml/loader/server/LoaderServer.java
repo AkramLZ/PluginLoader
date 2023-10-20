@@ -30,9 +30,12 @@ public final class LoaderServer {
     public LoaderServer(final int bindingPort,
                         final String fileName,
                         final String mainClass) throws IOException {
-        this.serverSocket = new ServerSocket(bindingPort);
-        this.fileName = fileName;
+        // Initialize local variables
+        this.serverSocket  = new ServerSocket(bindingPort);
+        this.fileName      = fileName;
         this.mainClassName = mainClass;
+
+        // Start the server
         this.serverThread = new Thread("LoaderServer-Thread") {
             @Override
             public void run() {
@@ -58,6 +61,7 @@ public final class LoaderServer {
                 // Declare file to be sent, convert it into bytes then send it.
                 final File file = new File(fileName);
                 final byte[] bytes = FileUtils.toByteArray(file);
+                outputStream.writeInt(bytes.length);
                 outputStream.write(bytes);
             } catch (final Exception exception) {
                 if (exception instanceof SocketException) return;

@@ -76,6 +76,7 @@ public class LoaderBackend {
 
     private static void printUsage() {
         logger.info("Usage: java -jar loader-backend.jar --port=<port> --file=<jar file> --main-class=<main class>");
+        logger.info("Example: java -jar loader-backend.jar --port=5003 --file=injected-plugin.jar --main-class=me.akraml.loader.plugin.ExampleInjectedPlugin");
     }
 
 }

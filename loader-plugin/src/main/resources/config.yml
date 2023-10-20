@@ -1,0 +1,3 @@
+loader-server:
+  address: 0.0.0.0
+  port: 5003
