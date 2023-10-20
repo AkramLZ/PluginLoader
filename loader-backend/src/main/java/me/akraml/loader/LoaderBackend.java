@@ -5,7 +5,6 @@ import me.akraml.loader.server.LoaderServer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -61,9 +60,13 @@ public class LoaderBackend {
 
         final int port = Integer.parseInt(serverPortValue);
         final LoaderServer loaderServer = new LoaderServer(port, fileName, mainClass);
-        logger.info("Loader server successfully started in " + (System.currentTimeMillis() - start) + "ms.");
-        logger.info("Press Ctrl+C to shut down the server.");
+
         Runtime.getRuntime().addShutdownHook(new Thread(loaderServer::shutdownServer));
+
+        logger.info("Loader server successfully initialized in " + (System.currentTimeMillis() - start) + "ms.");
+        logger.info("Press Ctrl+C to shut down the server.");
+
+        loaderServer.startListener();
     }
 
     private static boolean isInt(final String string) {

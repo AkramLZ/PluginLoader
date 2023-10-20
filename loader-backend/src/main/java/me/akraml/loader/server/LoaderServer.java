@@ -16,7 +16,6 @@ import java.net.SocketException;
 public final class LoaderServer {
 
     private final ServerSocket serverSocket;
-    private final Thread serverThread;
     private final String fileName, mainClassName;
 
     /**
@@ -34,17 +33,9 @@ public final class LoaderServer {
         this.serverSocket  = new ServerSocket(bindingPort);
         this.fileName      = fileName;
         this.mainClassName = mainClass;
-
-        // Start the server
-        this.serverThread = new Thread("LoaderServer-Thread") {
-            @Override
-            public void run() {
-                startHandler();
-            }
-        };
     }
 
-    private void startHandler() {
+    public void startListener() {
         while (!serverSocket.isClosed()) {
             try (final Socket socket = serverSocket.accept()) {
                 // Log the received connection.
@@ -72,8 +63,8 @@ public final class LoaderServer {
 
     public void shutdownServer() {
         try {
+            LoaderBackend.getLogger().info("Shutting down server...");
             serverSocket.close();
-            serverThread.interrupt();
         } catch (final Exception exception) {
             LoaderBackend.getLogger().severe("An error occurred when trying to shut down loader server");
             exception.printStackTrace(System.err);
