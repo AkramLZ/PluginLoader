@@ -3,6 +3,7 @@ package me.akraml.loader;
 import lombok.Getter;
 import me.akraml.loader.server.LoaderServer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,8 +37,19 @@ public class LoaderBackend {
             printUsage();
             return;
         }
+        final String fileName = argsMap.get("file");
+        if (fileName == null) {
+            logger.severe("Please specify a file!");
+            printUsage();
+            return;
+        }
+        if (!fileName.endsWith(".jar") || !new File(fileName).exists()) {
+            logger.severe("Please specify a valid file!");
+            printUsage();
+            return;
+        }
         final int port = Integer.parseInt(serverPortValue);
-        final LoaderServer loaderServer = new LoaderServer(port);
+        final LoaderServer loaderServer = new LoaderServer(port, fileName);
         Runtime.getRuntime().addShutdownHook(new Thread(loaderServer::shutdownServer));
     }
 
