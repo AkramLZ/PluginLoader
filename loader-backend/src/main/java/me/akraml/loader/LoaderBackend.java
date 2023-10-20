@@ -5,6 +5,7 @@ import me.akraml.loader.server.LoaderServer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ public class LoaderBackend {
             if (!arg.startsWith("--") || arg.replaceFirst("--", "").isEmpty() || !arg.contains("=")) continue;
             final String[] values = arg.replaceFirst("--", "").split("=");
             if (values.length < 2) continue;
-            argsMap.put(values[0].toLowerCase(), args[1]);
+            argsMap.put(values[0].toLowerCase(), values[1]);
         }
         final String serverPortValue = argsMap.get("port");
         if (serverPortValue == null) {
